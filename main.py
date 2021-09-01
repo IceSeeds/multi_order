@@ -1,15 +1,17 @@
 import win32pipe
 import win32file
 
+
+PIPE_NAME = "KEG_MULTI"
 # 名前付きパイプの作成
 pipe = win32pipe.CreateNamedPipe(
-    r'\\.\pipe\TestPipe', 
+    r'\\.\pipe\\' + PIPE_NAME,
     win32pipe.PIPE_ACCESS_DUPLEX,
-    win32pipe. PIPE_TYPE_BYTE | win32pipe.PIPE_READMODE_BYTE | win32pipe.PIPE_WAIT,
-    1, 256, 256, 0, None)
+    win32pipe.PIPE_TYPE_BYTE | win32pipe.PIPE_READMODE_BYTE | win32pipe.PIPE_WAIT,
+    1, 256, 256, 0, None )
 
 # クライアントの接続を待つ
-win32pipe.ConnectNamedPipe(pipe, None)
+win32pipe.ConnectNamedPipe( pipe, None )
 
 # バッファの準備
 s = b''
@@ -17,7 +19,7 @@ s = b''
 # 無限ループ
 while True:
     # パイプから 1 文字読み取って
-    hr, c = win32file.ReadFile(pipe, 1)
+    hr, c = win32file.ReadFile( pipe, 1 )
 
     # バッファに追加
     s += c
